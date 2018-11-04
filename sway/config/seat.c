@@ -29,6 +29,7 @@ struct seat_config *new_seat_config(const char* name) {
 	seat->allow_constrain = CONSTRAIN_DEFAULT;
 	seat->xcursor_theme.name = NULL;
 	seat->xcursor_theme.size = 24;
+	seat->keep_keyboard_layout = KEYBOARD_LAYOUT_UNDEFINED;
 
 	return seat;
 }
@@ -116,6 +117,10 @@ static void merge_seat_attachment_config(struct seat_attachment_config *dest,
 void merge_seat_config(struct seat_config *dest, struct seat_config *source) {
 	if (source->fallback != -1) {
 		dest->fallback = source->fallback;
+	}
+
+	if (source->keep_keyboard_layout != KEYBOARD_LAYOUT_UNDEFINED) {
+		dest->keep_keyboard_layout = source->keep_keyboard_layout;
 	}
 
 	for (int i = 0; i < source->attachments->length; ++i) {
